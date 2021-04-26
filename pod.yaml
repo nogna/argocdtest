@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: maintenance-pod
+spec:
+  template:
+    spec:
+      containers:
+      - name: maintenance
+        image: postgres
+        command: ['sh', '-c', 'tail -f /dev/null']
+        volumeMounts:
+            - mountPath: /backup/
+              name: backup
+      volumes:
+      - name: backup
+        persistentVolumeClaim:
+          claimName: postgres-backup-pv-claim
+      restartPolicy: OnFailure
