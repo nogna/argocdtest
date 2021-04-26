@@ -2,7 +2,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: postgres-backup
+  name: argotest
 spec:
  # Backup the database every day at 2AM
   schedule: "0/10 8-16 * * *"
@@ -11,7 +11,7 @@ spec:
       template:
         spec:
           containers:
-          - name: postgres-backup
+          - name: argotest
             image: postgres
             command: ["/bin/sh"]
             args: ["-c", 'echo hej hej argo!!']
