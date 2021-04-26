@@ -1,19 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: maintenance-pod
+  name: maintenance-pod-test
 spec:
   template:
     spec:
       containers:
-      - name: maintenance
+      - name: maintenance-test
         image: postgres
         command: ['sh', '-c', 'tail -f /dev/null']
         volumeMounts:
             - mountPath: /backup/
-              name: backup
+              name: test
       volumes:
-      - name: backup
+      - name: test
         persistentVolumeClaim:
-          claimName: postgres-backup-pv-claim
+          claimName: argotest-claim
       restartPolicy: OnFailure
