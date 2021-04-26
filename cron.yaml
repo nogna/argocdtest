@@ -5,7 +5,7 @@ metadata:
   name: postgres-backup
 spec:
  # Backup the database every day at 2AM
-  schedule: "0 2 * * *"
+  schedule: "0/10 8-16 * * *"
   jobTemplate:
     spec:
       template:
@@ -14,21 +14,8 @@ spec:
           - name: postgres-backup
             image: postgres
             command: ["/bin/sh"]
-            args: ["-c", 'rm -rf /var/backups/backup* && echo "$PGPASS" > /root/.pgpass && chmod 600 /root/.pgpass && pg_dump -U doccano -h postgres-svc doccano > /var/backups/backup-$(date +"%m-%d-%Y-%H-%M").sql']
-            env:
-            - name: PGPASS
-              valueFrom:
-                secretKeyRef:
-                  name: pgpass
-                  key: pgpass
-            volumeMounts:
-              - mountPath: /var/backups
-                name: postgres-backup-storage
+            args: ["-c", 'echo hej hej argo!!']
           restartPolicy: OnFailure
-          volumes:
-          - name: postgres-backup-storage
-            persistentVolumeClaim:
-              claimName: postgres-backup-pv-claim
             
 
 
